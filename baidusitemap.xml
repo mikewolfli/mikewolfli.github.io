@@ -3,17 +3,34 @@
 
 
     
-    
-    
+  <url>
+    <loc>http://mikewolfli.github.io/2016/12/01/wxwidgets-invoke-RFC-function-C/</loc>
+    <lastmod>2016-12-01T01:33:41.798Z</lastmod>
+    <data>
+        <display>
+        <title>wxwidgets invoke RFC function(C++)</title>
+        <pubTime>2016-12-01T01:15:41.000Z</pubTime>
+        
+        <tag>SAP,nwrfc</tag>
+         
+         
+           
+             
+              <breadCrumb title="SAP" url="http://mikewolfli.github.io/categories/SAP/"/>
+          
+        </display>
+    </data>
+    </url>
+
     
     
   <url>
     <loc>http://mikewolfli.github.io/2016/11/30/hello-world/</loc>
-    <lastmod>2016-11-30T01:42:04.798Z</lastmod>
+    <lastmod>2016-11-30T04:16:05.707Z</lastmod>
     <data>
         <display>
         <title>Hello World</title>
-        <pubTime>2016-11-30T01:42:04.798Z</pubTime>
+        <pubTime>2016-11-30T04:16:05.707Z</pubTime>
         
         <tag>hexo</tag>
          
@@ -26,5 +43,8 @@
     </data>
     </url>
 
+    
+    
+    
     
 </urlset>

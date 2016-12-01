@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mikewolfli.github.io/"/>
-  <updated>2016-11-30T01:42:04.798Z</updated>
+  <updated>2016-12-01T01:33:41.798Z</updated>
   <id>http://mikewolfli.github.io/</id>
   
   <author>
@@ -16,11 +16,29 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>wxwidgets invoke RFC function(C++)</title>
+    <link href="http://mikewolfli.github.io/2016/12/01/wxwidgets-invoke-RFC-function-C/"/>
+    <id>http://mikewolfli.github.io/2016/12/01/wxwidgets-invoke-RFC-function-C/</id>
+    <published>2016-12-01T01:15:41.000Z</published>
+    <updated>2016-12-01T01:33:41.798Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="SAP" scheme="http://mikewolfli.github.io/categories/SAP/"/>
+    
+    
+      <category term="SAP,nwrfc" scheme="http://mikewolfli.github.io/tags/SAP-nwrfc/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
     <link href="http://mikewolfli.github.io/2016/11/30/hello-world/"/>
     <id>http://mikewolfli.github.io/2016/11/30/hello-world/</id>
-    <published>2016-11-30T01:42:04.798Z</published>
-    <updated>2016-11-30T01:42:04.798Z</updated>
+    <published>2016-11-30T04:16:05.707Z</published>
+    <updated>2016-11-30T04:16:05.707Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
