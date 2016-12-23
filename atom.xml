@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mikewolfli.github.io/"/>
-  <updated>2016-11-30T04:16:05.707Z</updated>
+  <updated>2016-12-23T03:32:03.533Z</updated>
   <id>http://mikewolfli.github.io/</id>
   
   <author>
@@ -14,6 +14,309 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How to invoke SAP RFC function by external program with nwrfcsdk</title>
+    <link href="http://mikewolfli.github.io/2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/"/>
+    <id>http://mikewolfli.github.io/2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/</id>
+    <published>2016-12-22T00:42:13.000Z</published>
+    <updated>2016-12-23T03:32:03.533Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="cpp-invoke-nwrfc-sdk"><a href="#cpp-invoke-nwrfc-sdk" class="headerlink" title="cpp invoke nwrfc sdk"></a>cpp invoke nwrfc sdk</h2><blockquote>
+<p>The whole code is in my <a href="https://gist.github.com/mikewolfli/92520c1af3aa2b08c0c0e3d7328808ed" target="_blank" rel="external">gist</a><br>nwrfc sdk , you can git download from <a href="https://github.com/mikewolfli/sapnwrfcsdk" target="_blank" rel="external">here</a></p>
+</blockquote>
+<h3 id="String-convert"><a href="#String-convert" class="headerlink" title="String convert"></a>String convert</h3><h4 id="sap-uc-to-wxString"><a href="#sap-uc-to-wxString" class="headerlink" title="sap uc to wxString"></a>sap uc to wxString</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"> <span class="function">wxString <span class="title">sapucTostring</span><span class="params">(SAP_UC * s_ucs, <span class="keyword">int</span> length)</span></span></div><div class="line">&#123;</div><div class="line">  RFC_RC rc;</div><div class="line">  RFC_ERROR_INFO errorInfo;</div><div class="line"></div><div class="line">  wxString str;</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(length==<span class="number">0</span>)</div><div class="line">    <span class="keyword">return</span> wxEmptyString;</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(length == <span class="number">-1</span>)</div><div class="line">     length = strlenU(s_ucs);</div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> utf8Size = length * <span class="number">2</span>;</div><div class="line">  <span class="keyword">char</span> *utf8 = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(utf8Size + <span class="number">1</span>);</div><div class="line">  utf8[<span class="number">0</span>] = <span class="string">'\0'</span>;</div><div class="line"></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> resultLen = <span class="number">0</span>;</div><div class="line">  rc = RfcSAPUCToUTF8(s_ucs, length, (RFC_BYTE*) utf8, &amp;utf8Size, &amp;resultLen, &amp;errorInfo);</div><div class="line"></div><div class="line">  <span class="keyword">int</span> i=<span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="keyword">while</span> (rc != RFC_OK) &#123;</div><div class="line">    <span class="comment">// <span class="doctag">TODO:</span> throw wrapError</span></div><div class="line">        <span class="keyword">if</span>(rc==RFC_BUFFER_TOO_SMALL)</div><div class="line">        &#123;</div><div class="line">            i+=<span class="number">8</span>;</div><div class="line">            utf8Size = (length+i) * <span class="number">2</span>;</div><div class="line">            <span class="built_in">free</span>(utf8);</div><div class="line"></div><div class="line">            utf8 = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(utf8Size + <span class="number">1</span>);</div><div class="line">            utf8[<span class="number">0</span>] = <span class="string">'\0'</span>;</div><div class="line">            rc = RfcSAPUCToUTF8(s_ucs, length, (RFC_BYTE*) utf8, &amp;utf8Size, &amp;resultLen, &amp;errorInfo);</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            errorHandling(rc, cU(<span class="string">"sap uc to string"</span>), &amp;errorInfo, <span class="literal">NULL</span>);</div><div class="line">            <span class="keyword">return</span> <span class="string">"error"</span>;</div><div class="line">        &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  str = wxString(utf8,wxConvUTF8);</div><div class="line"></div><div class="line">  <span class="built_in">free</span>(utf8);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> str;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="wxString-to-sap-uc"><a href="#wxString-to-sap-uc" class="headerlink" title="wxString to sap uc"></a>wxString to sap uc</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function">SAP_UC * <span class="title">stringTosapuc</span><span class="params">(wxString &amp;str)</span></span></div><div class="line">&#123;</div><div class="line"></div><div class="line">  RFC_RC rc;</div><div class="line">  SAP_UC *sapuc;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> sapucSize, resultLen = <span class="number">0</span>;</div><div class="line"></div><div class="line">  RFC_ERROR_INFO errorInfo;</div><div class="line"></div><div class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *cStr = str.mb_str(wxConvUTF8);</div><div class="line"></div><div class="line">  sapucSize = <span class="built_in">strlen</span>(cStr) + <span class="number">1</span>;</div><div class="line"></div><div class="line">  sapuc = mallocU(sapucSize);</div><div class="line">  memsetU(sapuc, <span class="number">0</span>, sapucSize);</div><div class="line">  rc = RfcUTF8ToSAPUC((RFC_BYTE*)cStr, <span class="built_in">strlen</span>(cStr), sapuc, &amp;sapucSize, &amp;resultLen, &amp;errorInfo);</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (rc != RFC_OK) &#123;</div><div class="line">    <span class="comment">// <span class="doctag">FIXME:</span> error handling</span></div><div class="line">    errorHandling(rc, cU(<span class="string">"string to sap_uc"</span>), &amp;errorInfo, <span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">return</span> cU(<span class="string">"error"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line">   <span class="keyword">return</span> sapuc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Establish-a-pool-class-to-store-the-dataset-from-the-result-of-RFC-Function"><a href="#Establish-a-pool-class-to-store-the-dataset-from-the-result-of-RFC-Function" class="headerlink" title="Establish a pool class to store the dataset from the result of RFC Function"></a>Establish a pool class to store the dataset from the result of RFC Function</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">class</span> Str_Line</div><div class="line">&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	Str_Line()</div><div class="line">	&#123;</div><div class="line">		cols = <span class="number">0</span>; <span class="comment">//columns label ptr</span></div><div class="line">		num_cols=<span class="number">0</span>;<span class="comment">//column's quantity</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	Str_Line(<span class="keyword">int</span> _col_num)</div><div class="line">	&#123;</div><div class="line">	    num_cols = _col_num;</div><div class="line">        <span class="keyword">if</span>(_col_num &gt;<span class="number">0</span>)</div><div class="line">	        cols = <span class="keyword">new</span> wxString[num_cols];</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	~Str_Line()</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span> (cols) <span class="keyword">delete</span>[] cols;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	wxString *cols;</div><div class="line">	<span class="keyword">int</span> num_cols;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">class</span> Value_Pool</div><div class="line">&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	Value_Pool(<span class="keyword">int</span> initialLines, <span class="keyword">bool</span> _dic=<span class="literal">false</span>);</div><div class="line">	~Value_Pool();</div><div class="line">	Str_Line *<span class="keyword">operator</span>[] (<span class="keyword">int</span> line)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> Get_Value(line);</div><div class="line">	&#125;</div><div class="line">	<span class="function">Str_Line *<span class="title">Get_Value</span><span class="params">(<span class="keyword">int</span> lineNo)</span></span>;</div><div class="line"></div><div class="line">	<span class="function">Str_Line *<span class="title">Get_Name</span><span class="params">()</span></span></div><div class="line">	&#123;</div><div class="line">	    <span class="keyword">return</span> ptr_name;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Delete</span><span class="params">(<span class="keyword">int</span> lineNo)</span></span>;</div><div class="line"></div><div class="line">	<span class="function">wxString <span class="title">get_value_by_name</span><span class="params">(wxString str, Str_Line* p_str)</span></span>;</div><div class="line">	<span class="function">wxString <span class="title">get_value_by_index</span><span class="params">(<span class="keyword">int</span> i_col, Str_Line* p_str)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">find_col_name</span><span class="params">(wxString str)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">Find_row_value</span><span class="params">(wxString str, <span class="keyword">int</span> i_col, <span class="keyword">int</span> i_start=<span class="number">0</span>)</span></span>;</div><div class="line">	<span class="function">wxArrayInt <span class="title">find_row_value_array</span><span class="params">(wxString str, <span class="keyword">int</span> i_col, <span class="keyword">int</span> i_start=<span class="number">0</span>)</span></span>;</div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">Get_Same_Count</span><span class="params">(wxString str, <span class="keyword">int</span> i_col)</span></span>;</div><div class="line"></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">is_dict</span><span class="params">()</span></span></div><div class="line">	&#123;</div><div class="line">	    <span class="keyword">return</span> is_dic;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">GetNumOfRows</span><span class="params">()</span></span></div><div class="line">	&#123;</div><div class="line">	    <span class="keyword">return</span> num_rows;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    Str_Line * ptr_name;<span class="comment">// store the headers</span></div><div class="line">	Str_Line **ptr_value;<span class="comment">// store the values</span></div><div class="line">    <span class="keyword">bool</span> is_dic;</div><div class="line">	<span class="keyword">int</span> num_rows;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="C-class-to-communicate-with-RFC-Function"><a href="#C-class-to-communicate-with-RFC-Function" class="headerlink" title="C++ class to communicate with RFC Function"></a>C++ class to communicate with RFC Function</h4><blockquote>
+<p>Because in sap, all rfc function is based on the inner table to run. If you invoke the rfc function , first , you must fill the cases in the import table(inner table), then run the function , at last, get the result in the export table(inner table).</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">class</span> Rfc_Communication</div><div class="line">&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Rfc_Communication();</div><div class="line">    <span class="keyword">virtual</span> ~Rfc_Communication();</div><div class="line"></div><div class="line">    <span class="function">RFC_FUNCTION_HANDLE <span class="title">Create_Function</span><span class="params">(wxString function_name,RFC_FUNCTION_DESC_HANDLE&amp; funhandle_desc)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">fillFunctionParameter</span><span class="params">(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, wxString v_name, Value_Pool * v_value)</span></span>;<span class="comment">//list cases fill</span></div><div class="line">    <span class="function">RFC_RC <span class="title">fillFunctionParameter</span><span class="params">(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, wxString v_name, wxString s_value)</span></span>;<span class="comment">//single case fill</span></div><div class="line">    <span class="function">RFC_RC <span class="title">RunFunction</span><span class="params">(RFC_FUNCTION_HANDLE fun_handle)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">DestroyFunction</span><span class="params">(RFC_FUNCTION_HANDLE fun_handle)</span></span>;</div><div class="line">    <span class="function">Value_Pool* <span class="title">GetResult</span><span class="params">(wxString result_name, RFC_FUNCTION_DESC_HANDLE fun_handle_desc, RFC_FUNCTION_HANDLE fun_handle)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">rfc_connect</span><span class="params">()</span></span>; </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rfc_closed</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">rfc_check_connect</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    wxString str_result;</div><div class="line"></div><div class="line"><span class="keyword">protected</span>:</div><div class="line"><span class="keyword">private</span>:</div><div class="line"></div><div class="line">    RFC_CONNECTION_HANDLE connection;</div><div class="line">    RFC_ERROR_INFO errorInfo;</div><div class="line"></div><div class="line">    <span class="function">SAP_UC* <span class="title">fillString</span><span class="params">(wxString str)</span></span>;</div><div class="line">    <span class="function">wxString <span class="title">wrapString</span><span class="params">(SAP_UC * uc,<span class="keyword">int</span> length =<span class="number">-1</span>, <span class="keyword">bool</span> rstrip=<span class="literal">false</span>)</span></span>;</div><div class="line"></div><div class="line">    <span class="function">RFC_RC <span class="title">lookupMetaData</span><span class="params">(wxString function_name,RFC_FUNCTION_DESC_HANDLE &amp;funhandle_desc)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">fillVariable</span><span class="params">(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, Value_Pool * v_value, wxString str, RFC_TYPE_DESC_HANDLE typeDesc)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">fillStructureField</span><span class="params">(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, SAP_UC * name, wxString s_value)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">fillTable</span><span class="params">(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, Value_Pool* value)</span></span>;</div><div class="line">    <span class="function">RFC_RC <span class="title">fillField</span><span class="params">(RFCTYPE typ, DATA_CONTAINER_HANDLE container, SAP_UC* name, wxString s_value)</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Value_Pool* <span class="title">wrapResult</span><span class="params">(RFC_FUNCTION_DESC_HANDLE functionDescHandle, RFC_FUNCTION_HANDLE functionHandle, wxString varial_name, <span class="keyword">bool</span> rstrip=<span class="literal">false</span>)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">wrapStructure</span><span class="params">(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE structHandle, Str_Line* line_value=<span class="literal">NULL</span>,<span class="keyword">bool</span> _withname=<span class="literal">false</span>, Str_Line* line_name=<span class="literal">NULL</span>, <span class="keyword">bool</span> rstrip=<span class="literal">false</span>)</span></span>;</div><div class="line">    <span class="function">Value_Pool* <span class="title">wrapVariable</span><span class="params">(RFCTYPE typ, RFC_FUNCTION_HANDLE functionHandle, SAP_UC* cName, <span class="keyword">unsigned</span> <span class="keyword">int</span> cLen, RFC_TYPE_DESC_HANDLE typeDesc, <span class="keyword">bool</span> rstrip=<span class="literal">false</span>)</span></span>;</div><div class="line">    <span class="function">wxString <span class="title">wrapField</span><span class="params">(RFCTYPE typ, RFC_STRUCTURE_HANDLE functionHandle, SAP_UC* cName, <span class="keyword">unsigned</span> <span class="keyword">int</span> cLen, <span class="keyword">bool</span> rstrip=<span class="literal">false</span>)</span></span>;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="sample-how-to-use-this-class-to-invoke-the-rfc-function"><a href="#sample-how-to-use-this-class-to-invoke-the-rfc-function" class="headerlink" title="sample - how to use this class to invoke the rfc function"></a>sample - how to use this class to invoke the rfc function</h4><h5 id="this-is-rfc-function-def"><a href="#this-is-rfc-function-def" class="headerlink" title="this is rfc function def"></a>this is rfc function def</h5><blockquote>
+<p>Function id : ZAP_PS_MATERIAL_INFO<br>import:  IT_CE_MARA</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field id</th>
+<th>type</th>
+<th>length</th>
+<th>decimal</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MATNR</td>
+<td>CHAR</td>
+<td>18</td>
+<td></td>
+<td>Material Number</td>
+</tr>
+<tr>
+<td>WERKS</td>
+<td>CHAR</td>
+<td>4</td>
+<td></td>
+<td>Plant</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<pre><code>CE_SPRAS
+</code></pre></blockquote>
+<table>
+<thead>
+<tr>
+<th>field id</th>
+<th>type</th>
+<th>length</th>
+<th>decimal</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language</td>
+<td>CHAR</td>
+<td>1</td>
+<td></td>
+<td>Language Key</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>export: OT_CE_MARA</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field id</th>
+<th>type</th>
+<th>length</th>
+<th>decimal</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MATNR</td>
+<td>CHAR</td>
+<td>18</td>
+<td>0</td>
+<td>Material Number</td>
+</tr>
+<tr>
+<td>MAKTG</td>
+<td>CHAR</td>
+<td>40</td>
+<td>0</td>
+<td>Material description in upper case for matchcodes</td>
+</tr>
+<tr>
+<td>MAKTX</td>
+<td>CHAR</td>
+<td>40</td>
+<td>0</td>
+<td>Material Description (Short Text)</td>
+</tr>
+<tr>
+<td>SPRAS</td>
+<td>LANG</td>
+<td>1</td>
+<td>0</td>
+<td>Language Key</td>
+</tr>
+<tr>
+<td>BRGEW</td>
+<td>QUAN</td>
+<td>13</td>
+<td>3</td>
+<td>Gross Weight</td>
+</tr>
+<tr>
+<td>MEINS</td>
+<td>UNIT</td>
+<td>3</td>
+<td>0</td>
+<td>Base Unit of Measure</td>
+</tr>
+<tr>
+<td>MTART</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Material Type</td>
+</tr>
+<tr>
+<td>NORMT</td>
+<td>CHAR</td>
+<td>18</td>
+<td>0</td>
+<td>Industry Standard Description (such as ANSI or ISO)</td>
+</tr>
+<tr>
+<td>BISMT</td>
+<td>CHAR</td>
+<td>18</td>
+<td>0</td>
+<td>Old material number</td>
+</tr>
+<tr>
+<td>ZEINR</td>
+<td>CHAR</td>
+<td>22</td>
+<td>0</td>
+<td>Document number (without document management system)</td>
+</tr>
+<tr>
+<td>GROES</td>
+<td>CHAR</td>
+<td>32</td>
+<td>0</td>
+<td>Size/dimensions</td>
+</tr>
+<tr>
+<td>LGFSB</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Default storage location for external procurement</td>
+</tr>
+<tr>
+<td>LGPRO</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Issue Storage Location</td>
+</tr>
+<tr>
+<td>DISPO</td>
+<td>CHAR</td>
+<td>3</td>
+<td>0</td>
+<td>MRP Controller (Materials Planner)</td>
+</tr>
+<tr>
+<td>SBDKZ</td>
+<td>CHAR</td>
+<td>1</td>
+<td>0</td>
+<td>Dependent requirements ind. for individual and coll. reqmts</td>
+</tr>
+<tr>
+<td>FEVOR</td>
+<td>CHAR</td>
+<td>3</td>
+<td>0</td>
+<td>Production scheduler</td>
+</tr>
+<tr>
+<td>SOBSK</td>
+<td>CHAR</td>
+<td>2</td>
+<td>0</td>
+<td>Special Procurement Type for Costing</td>
+</tr>
+<tr>
+<td>BESKZ</td>
+<td>CHAR</td>
+<td>1</td>
+<td>0</td>
+<td>Procurement Type</td>
+</tr>
+<tr>
+<td>SOBSL</td>
+<td>CHAR</td>
+<td>2</td>
+<td>0</td>
+<td>Special procurement type</td>
+</tr>
+<tr>
+<td>MATGR</td>
+<td>CHAR</td>
+<td>20</td>
+<td>0</td>
+<td>Group of Materials for Transition Matrix</td>
+</tr>
+<tr>
+<td>MFRGR</td>
+<td>CHAR</td>
+<td></td>
+<td></td>
+<td>Material freight group</td>
+</tr>
+<tr>
+<td>WERKS</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Plant</td>
+</tr>
+<tr>
+<td>VPRSV</td>
+<td>CHAR</td>
+<td>1</td>
+<td>0</td>
+<td>Price control indicator</td>
+</tr>
+<tr>
+<td>BWTAR</td>
+<td>CHAR</td>
+<td>10</td>
+<td>0</td>
+<td>Valuation Type</td>
+</tr>
+<tr>
+<td>BWKEY</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Valuation Area</td>
+</tr>
+<tr>
+<td>BKLAS</td>
+<td>CHAR</td>
+<td>4</td>
+<td>0</td>
+<td>Valuation Class</td>
+</tr>
+<tr>
+<td>TDLINE</td>
+<td>CHAR</td>
+<td>255</td>
+<td>0</td>
+<td>Material master Basic Data  Text</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>As above, the IT_CE_MARA, CE_SPRAS, OT_CE_MARA are structure. </p>
+<p>Invoke code</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> rfctestDialog::OnButton1Click(wxCommandEvent&amp; event)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(!sap_conn-&gt;rfc_check_connect())</div><div class="line">        sap_conn-&gt;rfc_connect();</div><div class="line"></div><div class="line">    Value_Pool* mat_value=<span class="keyword">new</span> Value_Pool(<span class="number">1</span>, <span class="literal">true</span>); <span class="comment">// this is filled innner table</span></div><div class="line"></div><div class="line">    Str_Line * line= mat_value-&gt;Get_Name();</div><div class="line"></div><div class="line">    line-&gt;cols= <span class="keyword">new</span> wxString[<span class="number">2</span>];</div><div class="line">    line-&gt;num_cols = <span class="number">2</span>;</div><div class="line">    wxString str = <span class="string">"MATNR"</span>;</div><div class="line"></div><div class="line">    line-&gt;cols[<span class="number">0</span>] = str;</div><div class="line"></div><div class="line">    str = <span class="string">"WERKS"</span>;</div><div class="line">    line-&gt;cols[<span class="number">1</span>] = str;</div><div class="line"></div><div class="line">    line = mat_value-&gt;Get_Value(<span class="number">0</span>);</div><div class="line">    line-&gt;num_cols = <span class="number">2</span>;</div><div class="line"></div><div class="line">    line-&gt;cols = <span class="keyword">new</span> wxString[<span class="number">2</span>];</div><div class="line"></div><div class="line">    str = <span class="string">"330040240"</span>;</div><div class="line">  <span class="comment">//  str = "200000051";</span></div><div class="line">    line-&gt;cols[<span class="number">0</span>] = str;</div><div class="line"></div><div class="line">    str = <span class="string">"2101"</span>;</div><div class="line">    line-&gt;cols[<span class="number">1</span>] = str;</div><div class="line">    wxString s_lang = <span class="string">"1"</span>;</div><div class="line"></div><div class="line"></div><div class="line">    Value_Pool * pool_result;</div><div class="line"></div><div class="line"></div><div class="line">    RFC_FUNCTION_DESC_HANDLE fun_handle_desc;</div><div class="line">    RFC_FUNCTION_HANDLE fun_handle;</div><div class="line"></div><div class="line"></div><div class="line">    fun_handle = sap_conn-&gt;Create_Function(wxT(<span class="string">"ZAP_PS_MATERIAL_INFO"</span>),fun_handle_desc);</div><div class="line">    sap_conn-&gt;fillFunctionParameter(fun_handle_desc,fun_handle,wxT(<span class="string">"IT_CE_MARA"</span>),mat_value);<span class="comment">//fill query table </span></div><div class="line">    sap_conn-&gt;RunFunction(fun_handle);</div><div class="line">    pool_result = sap_conn-&gt;GetResult(wxT(<span class="string">"OT_CE_MARA"</span>),fun_handle_desc,fun_handle);<span class="comment">//get result table</span></div><div class="line"></div><div class="line">    sap_conn-&gt;DestroyFunction(fun_handle);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(pool_result)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> i_row = pool_result-&gt;GetNumOfRows();</div><div class="line">        str.Empty();</div><div class="line"></div><div class="line">        Str_Line* line_head= pool_result-&gt;Get_Name();</div><div class="line"></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;i_row; i++)</div><div class="line">        &#123;</div><div class="line">            Str_Line * line = pool_result-&gt;Get_Value(i);</div><div class="line"></div><div class="line">            <span class="keyword">int</span> i_col = line-&gt;num_cols;</div><div class="line"></div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;i_col; j++)</div><div class="line">            &#123;</div><div class="line">                str = str+line_head-&gt;cols[j]+wxT(<span class="string">":"</span>)+line-&gt;cols[j]+wxT(<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    tc_result-&gt;SetValue(str);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Python-invoke-RFC-Function"><a href="#Python-invoke-RFC-Function" class="headerlink" title="Python invoke RFC Function"></a>Python invoke RFC Function</h2><blockquote>
+<p>This must install the pyRFC.<br>How to intall it , you can according to <a href="http://sap.github.io/PyRFC/" target="_blank" rel="external">link</a><br>How to invoke it :</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">import</span> pyrfc</div><div class="line">...</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check_in_sap</span><span class="params">(self)</span>:</span></div><div class="line">        self.nstd_mat_list=[]</div><div class="line">        self.nstd_app_id=<span class="string">''</span></div><div class="line">        self.hibe_mats=[]</div><div class="line">        </div><div class="line">        <span class="string">'''</span></div><div class="line">        read the user and login parameters from a cfg file</div><div class="line">        '''</div><div class="line">        logger.info(<span class="string">"logining in SAP..."</span>)</div><div class="line">        config = ConfigParser()</div><div class="line">        config.read(<span class="string">'sapnwrfc.cfg'</span>)</div><div class="line">        para_conn  = config._sections[<span class="string">'connection'</span>]</div><div class="line">        para_conn[<span class="string">'user'</span>] = base64.b64decode(para_conn[<span class="string">'user'</span>]).decode()</div><div class="line">        para_conn[<span class="string">'passwd'</span>] = base64.b64decode(para_conn[<span class="string">'passwd'</span>]).decode()</div><div class="line">        mats = self.mat_items.keys()</div><div class="line">        </div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            conn = pyrfc.Connection(**para_conn)</div><div class="line">            </div><div class="line">            imp = []</div><div class="line">            <span class="keyword">for</span> mat <span class="keyword">in</span> mats: <span class="comment">#loop to fill the query list </span></div><div class="line">                line = dict(MATNR=mat, WERKS=<span class="string">'2101'</span>)</div><div class="line">                imp.append(line)</div><div class="line">            </div><div class="line">            logger.info(<span class="string">"正在调用RFC函数..."</span>)</div><div class="line">            result = conn.call(<span class="string">'ZAP_PS_MATERIAL_INFO'</span>, IT_CE_MARA=imp, CE_SPRAS=<span class="string">'1'</span>)</div><div class="line">            </div><div class="line">            std_mats=[]</div><div class="line">            <span class="keyword">for</span> re <span class="keyword">in</span> result[<span class="string">'OT_CE_MARA'</span>]: <span class="comment">#loop to read the result line</span></div><div class="line">                std_mats.append(re[<span class="string">'MATNR'</span>])</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> re[<span class="string">'BKLAS'</span>]==<span class="string">'3030'</span> <span class="keyword">and</span> re[<span class="string">'MATNR'</span>] <span class="keyword">not</span> <span class="keyword">in</span> self.hibe_mats:</div><div class="line">                    self.hibe_mats.append(re[<span class="string">'MATNR'</span>])</div><div class="line">                </div><div class="line">            <span class="keyword">for</span> mat <span class="keyword">in</span> mats:</div><div class="line">                <span class="keyword">if</span> mat <span class="keyword">not</span> <span class="keyword">in</span> std_mats:</div><div class="line">                    logger.info(<span class="string">"标记非标物料:"</span>+mat)</div><div class="line">                    self.nstd_mat_list.append(mat)</div><div class="line">                    self.mark_nstd_mat(mat, <span class="keyword">True</span>)</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    self.mark_nstd_mat(mat, <span class="keyword">False</span>)</div><div class="line">                    </div><div class="line">            logger.info(<span class="string">"非标物料确认完成，共计"</span>+str(len(self.nstd_mat_list))+<span class="string">"个非标物料。"</span>)</div><div class="line">            </div><div class="line">        <span class="keyword">except</span> pyrfc.CommunicationError:</div><div class="line">            logger.error(<span class="string">"无法连接服务器"</span>)</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">        <span class="keyword">except</span> pyrfc.LogonError:</div><div class="line">            logger.error(<span class="string">"无法登陆，帐户密码错误！"</span>)</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">        <span class="keyword">except</span> (pyrfc.ABAPApplicationError, pyrfc.ABAPRuntimeError):</div><div class="line">            logger.error(<span class="string">"函数执行错误。"</span>)</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">        </div><div class="line">        conn.close()</div><div class="line">                   </div><div class="line">        <span class="keyword">return</span> len(self.nstd_mat_list)</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://github.com/SAP/node-rfc" target="_blank" rel="external">node-rfc: https://github.com/SAP/node-rfc</a></li>
+<li><a href="https://github.com/SAP/PyRFC" target="_blank" rel="external">pyRFC: https://github.com/SAP/PyRFC</a></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;cpp-invoke-nwrfc-sdk&quot;&gt;&lt;a href=&quot;#cpp-invoke-nwrfc-sdk&quot; class=&quot;headerlink&quot; title=&quot;cpp invoke nwrfc sdk&quot;&gt;&lt;/a&gt;cpp invoke nwrfc sdk&lt;/h2&gt;&lt;
+    
+    </summary>
+    
+      <category term="SAP" scheme="http://mikewolfli.github.io/categories/SAP/"/>
+    
+    
+      <category term="SAP,RFC,c++,Python" scheme="http://mikewolfli.github.io/tags/SAP-RFC-c-Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

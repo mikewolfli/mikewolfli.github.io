@@ -3,18 +3,28 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Warm wind from Mike</title>
+    <title>How to invoke SAP RFC function by external program with nwrfcsdk | Warm wind from Mike</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet"  href="https://cdn.bootcss.com/mermaid/6.0.0/mermaid.min.css" />
-    <meta name="description" content="路漫漫其修远兮，吾将上下而求索">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Warm wind from Mike">
-<meta property="og:url" content="http://mikewolfli.github.io/index.html">
+    <meta name="description" content="cpp invoke nwrfc sdk
+The whole code is in my gistnwrfc sdk , you can git download from here
+
+String convertsap uc to wxString123456789101112131415161718192021222324252627282930313233343536373839404142">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to invoke SAP RFC function by external program with nwrfcsdk">
+<meta property="og:url" content="http://mikewolfli.github.io/2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/index.html">
 <meta property="og:site_name" content="Warm wind from Mike">
-<meta property="og:description" content="路漫漫其修远兮，吾将上下而求索">
+<meta property="og:description" content="cpp invoke nwrfc sdk
+The whole code is in my gistnwrfc sdk , you can git download from here
+
+String convertsap uc to wxString123456789101112131415161718192021222324252627282930313233343536373839404142">
+<meta property="og:updated_time" content="2016-12-23T03:32:03.533Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Warm wind from Mike">
-<meta name="twitter:description" content="路漫漫其修远兮，吾将上下而求索">
+<meta name="twitter:title" content="How to invoke SAP RFC function by external program with nwrfcsdk">
+<meta name="twitter:description" content="cpp invoke nwrfc sdk
+The whole code is in my gistnwrfc sdk , you can git download from here
+
+String convertsap uc to wxString123456789101112131415161718192021222324252627282930313233343536373839404142">
     
 
     
@@ -225,16 +235,15 @@
 </aside>
 
             
-            <section id="main">
-    <article id="post-How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
             <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/">How to invoke SAP RFC function by external program with nwrfcsdk</a>
+        <h1 class="article-title" itemprop="name">
+            How to invoke SAP RFC function by external program with nwrfcsdk
         </h1>
     
 
@@ -268,6 +277,11 @@
         
         <div class="article-entry" itemprop="articleBody">
         
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cpp-invoke-nwrfc-sdk"><span class="toc-number">1.</span> <span class="toc-text">cpp invoke nwrfc sdk</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-convert"><span class="toc-number">1.1.</span> <span class="toc-text">String convert</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sap-uc-to-wxString"><span class="toc-number">1.1.1.</span> <span class="toc-text">sap uc to wxString</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wxString-to-sap-uc"><span class="toc-number">1.1.2.</span> <span class="toc-text">wxString to sap uc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Establish-a-pool-class-to-store-the-dataset-from-the-result-of-RFC-Function"><span class="toc-number">1.1.3.</span> <span class="toc-text">Establish a pool class to store the dataset from the result of RFC Function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C-class-to-communicate-with-RFC-Function"><span class="toc-number">1.1.4.</span> <span class="toc-text">C++ class to communicate with RFC Function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sample-how-to-use-this-class-to-invoke-the-rfc-function"><span class="toc-number">1.1.5.</span> <span class="toc-text">sample - how to use this class to invoke the rfc function</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#this-is-rfc-function-def"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">this is rfc function def</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python-invoke-RFC-Function"><span class="toc-number">2.</span> <span class="toc-text">Python invoke RFC Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+                </div>
             
             <h2 id="cpp-invoke-nwrfc-sdk"><a href="#cpp-invoke-nwrfc-sdk" class="headerlink" title="cpp invoke nwrfc sdk"></a>cpp invoke nwrfc sdk</h2><blockquote>
 <p>The whole code is in my <a href="https://gist.github.com/mikewolfli/92520c1af3aa2b08c0c0e3d7328808ed" target="_blank" rel="external">gist</a><br>nwrfc sdk , you can git download from <a href="https://github.com/mikewolfli/sapnwrfcsdk" target="_blank" rel="external">here</a></p>
@@ -620,134 +634,67 @@
         </footer>
     </div>
     
-</article>
-
-
-
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
         
-        
-            <header class="article-header">
-                
+<nav id="article-nav">
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/11/30/hello-world/">Hello World</a>
-        </h1>
     
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/11/30/hello-world/">
-            <time datetime="2016-11-30T04:16:05.707Z" itemprop="datePublished">2016-11-30</time>
+        <a href="/2016/11/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Hello World</div>
         </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/hexo/">hexo</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-            <div style="text-align:center;color: #ccc;font-size:14px;">------ Finish! ------</div>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-    <div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_qzone">QQ空间</a>
-    <a class="jiathis_button_tsina">新浪微博</a>
-    <a class="jiathis_button_tqq">腾讯微博</a>
-    <a class="jiathis_button_weixin">微信</a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<style>
-    .jiathis_style div:first-child:not(.jiadiv_01) {
-        width: auto !important;
-        border: none !important;
-    }
-    .jiathis_style .jiadiv_01 {
-        margin: 10px 0;
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .jiathis_style .jiadiv_01 div:first-child {
-        display: none;
-    }
-    .jiathis_style .jiadiv_02 {
-        padding: 7px 0 !important;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle {
-        width: 85px;
-        border: none;
-        height: auto;
-        margin: 3px 10px;
-        padding: 6px 10px;
-        border-radius: 4px;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:hover {
-        border: none;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
-        margin-left: 0;
-    }
-    .jiathis_style .jtico:hover {
-        opacity: 1;
-    }
-    .jiathis_style .ckepopBottom,
-    .jiathis_style .centerBottom {
-        width: auto !important;
-        padding: 5px;
-        background: #f7f7f7;
-    }
-</style>
-
-
-
-</div>
-
-            
     
-        <a href="http://mikewolfli.github.io/2016/11/30/hello-world/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://mikewolfli.github.io/2016/11/30/hello-world/">Comments</a>
-    
+</nav>
 
-        </footer>
-    </div>
+
     
 </article>
 
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/" data-title="How to invoke SAP RFC function by external program with nwrfcsdk" data-url="http://mikewolfli.github.io/2016/12/22/How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
 
 </section>
             
