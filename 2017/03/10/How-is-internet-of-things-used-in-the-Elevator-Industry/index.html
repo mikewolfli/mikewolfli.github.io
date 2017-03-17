@@ -6,32 +6,26 @@
     <title>How is internet of things used in the Elevator Industry | Warm wind from Mike</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet"  href="https://cdn.bootcss.com/mermaid/6.0.0/mermaid.min.css" />
-    <meta name="description" content="###Architecture diagram
- ###Thinking spark
- ####Data Center
-
+    <meta name="description" content="Architecture diagram
+Thinking sparkData Center
 It is based on a database(postgresql) cluster based on the ubuntu server.
-In data center, it stores the information of every project: locat">
+In data center, it stores the information of every project: location, parametae">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How is internet of things used in the Elevator Industry">
 <meta property="og:url" content="http://mikewolfli.github.io/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/index.html">
 <meta property="og:site_name" content="Warm wind from Mike">
-<meta property="og:description" content="###Architecture diagram
- ###Thinking spark
- ####Data Center
-
+<meta property="og:description" content="Architecture diagram
+Thinking sparkData Center
 It is based on a database(postgresql) cluster based on the ubuntu server.
-In data center, it stores the information of every project: locat">
+In data center, it stores the information of every project: location, parametae">
 <meta property="og:image" content="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png">
-<meta property="og:updated_time" content="2017-03-17T04:08:07.217Z">
+<meta property="og:updated_time" content="2017-03-17T04:50:00.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How is internet of things used in the Elevator Industry">
-<meta name="twitter:description" content="###Architecture diagram
- ###Thinking spark
- ####Data Center
-
+<meta name="twitter:description" content="Architecture diagram
+Thinking sparkData Center
 It is based on a database(postgresql) cluster based on the ubuntu server.
-In data center, it stores the information of every project: locat">
+In data center, it stores the information of every project: location, parametae">
 <meta name="twitter:image" content="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png">
     
 
@@ -288,30 +282,26 @@ In data center, it stores the information of every project: locat">
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Architecture-diagram"><span class="toc-number">1.</span> <span class="toc-text">Architecture diagram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thinking-spark"><span class="toc-number">2.</span> <span class="toc-text">Thinking spark</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-Center"><span class="toc-number">2.1.</span> <span class="toc-text">Data Center</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Application-Servers"><span class="toc-number">2.2.</span> <span class="toc-text">Application Servers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gateway"><span class="toc-number">2.3.</span> <span class="toc-text">Gateway</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client"><span class="toc-number">2.4.</span> <span class="toc-text">Client</span></a></li></ol></li></ol>
                 </div>
             
-            <p>###Architecture diagram<br><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
-<p> ###Thinking spark</p>
-<p> ####Data Center</p>
-<ol>
+            <h3 id="Architecture-diagram"><a href="#Architecture-diagram" class="headerlink" title="Architecture diagram"></a>Architecture diagram</h3><p><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
+<h3 id="Thinking-spark"><a href="#Thinking-spark" class="headerlink" title="Thinking spark"></a>Thinking spark</h3><h4 id="Data-Center"><a href="#Data-Center" class="headerlink" title="Data Center"></a>Data Center</h4><ol>
 <li>It is based on a database(postgresql) cluster based on the ubuntu server.</li>
 <li>In data center, it stores the information of every project: location, parametaers(elevator model, speed, load, etc.), running information, customer’s info,bom tree of every unit, erp info, mes info, etc.</li>
-<li><p>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</p>
-<p>####Application Servers</p>
-</li>
+<li>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</li>
+</ol>
+<h4 id="Application-Servers"><a href="#Application-Servers" class="headerlink" title="Application Servers"></a>Application Servers</h4><ol>
 <li>It is based on Ubuntu server.</li>
 <li>The erp system, mes system and restweb serve are deployed in it.</li>
 </ol>
-<p>####Gateway</p>
-<ol>
+<h4 id="Gateway"><a href="#Gateway" class="headerlink" title="Gateway"></a>Gateway</h4><ol>
 <li>It is a IOT gateway.(This is the key device of the internet of things)</li>
 <li>Its operate system is openwrt.(2 core cpu, 128M Rom, 256M RAM)</li>
 <li>Through it, running information of every unis is uploaded to database in data center. The optimized leveling strategy is writed into units controlling system.</li>
 <li>The elevator’s quantity, connecting to it, has a max value. So one project has more than one. </li>
 </ol>
-<p>####Client</p>
-<ol>
+<h4 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h4><ol>
 <li>It may be a web-based client, or a mobile app in  phone.</li>
 <li>Through it, customer can call one unit to level on the stop when customer want to go out from her/his location. But the priority of this calling command is less than it from the landing.</li>
 </ol>

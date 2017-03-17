@@ -269,27 +269,23 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>###Architecture diagram<br><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
-<p> ###Thinking spark</p>
-<p> ####Data Center</p>
-<ol>
+            <h3 id="Architecture-diagram"><a href="#Architecture-diagram" class="headerlink" title="Architecture diagram"></a>Architecture diagram</h3><p><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
+<h3 id="Thinking-spark"><a href="#Thinking-spark" class="headerlink" title="Thinking spark"></a>Thinking spark</h3><h4 id="Data-Center"><a href="#Data-Center" class="headerlink" title="Data Center"></a>Data Center</h4><ol>
 <li>It is based on a database(postgresql) cluster based on the ubuntu server.</li>
 <li>In data center, it stores the information of every project: location, parametaers(elevator model, speed, load, etc.), running information, customer’s info,bom tree of every unit, erp info, mes info, etc.</li>
-<li><p>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</p>
-<p>####Application Servers</p>
-</li>
+<li>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</li>
+</ol>
+<h4 id="Application-Servers"><a href="#Application-Servers" class="headerlink" title="Application Servers"></a>Application Servers</h4><ol>
 <li>It is based on Ubuntu server.</li>
 <li>The erp system, mes system and restweb serve are deployed in it.</li>
 </ol>
-<p>####Gateway</p>
-<ol>
+<h4 id="Gateway"><a href="#Gateway" class="headerlink" title="Gateway"></a>Gateway</h4><ol>
 <li>It is a IOT gateway.(This is the key device of the internet of things)</li>
 <li>Its operate system is openwrt.(2 core cpu, 128M Rom, 256M RAM)</li>
 <li>Through it, running information of every unis is uploaded to database in data center. The optimized leveling strategy is writed into units controlling system.</li>
 <li>The elevator’s quantity, connecting to it, has a max value. So one project has more than one. </li>
 </ol>
-<p>####Client</p>
-<ol>
+<h4 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h4><ol>
 <li>It may be a web-based client, or a mobile app in  phone.</li>
 <li>Through it, customer can call one unit to level on the stop when customer want to go out from her/his location. But the priority of this calling command is less than it from the landing.</li>
 </ol>
