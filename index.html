@@ -161,11 +161,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                2
+                3
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                2
+                3
                 <span>tags</span>
             </div>
         </div>
@@ -226,6 +226,147 @@
 
             
             <section id="main">
+    <article id="post-How-is-internet-of-things-used-in-the-Elevator-Industry" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/">How is internet of things used in the Elevator Industry</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/">
+            <time datetime="2017-03-10T06:29:00.000Z" itemprop="datePublished">2017-03-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Elevator/">Elevator</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/IOT-Elevator/">IOT, Elevator</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>###Architecture diagram<br><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
+<p> ###Thinking spark</p>
+<p> ####Data Center</p>
+<ol>
+<li>It is based on a database(postgresql) cluster based on the ubuntu server.</li>
+<li>In data center, it stores the information of every project: location, parametaers(elevator model, speed, load, etc.), running information, customer’s info,bom tree of every unit, erp info, mes info, etc.</li>
+<li><p>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</p>
+<p>####Application Servers</p>
+</li>
+<li>It is based on Ubuntu server.</li>
+<li>The erp system, mes system and restweb serve are deployed in it.</li>
+</ol>
+<p>####Gateway</p>
+<ol>
+<li>It is a IOT gateway.(This is the key device of the internet of things)</li>
+<li>Its operate system is openwrt.(2 core cpu, 128M Rom, 256M RAM)</li>
+<li>Through it, running information of every unis is uploaded to database in data center. The optimized leveling strategy is writed into units controlling system.</li>
+<li>The elevator’s quantity, connecting to it, has a max value. So one project has more than one. </li>
+</ol>
+<p>####Client</p>
+<ol>
+<li>It may be a web-based client, or a mobile app in  phone.</li>
+<li>Through it, customer can call one unit to level on the stop when customer want to go out from her/his location. But the priority of this calling command is less than it from the landing.</li>
+</ol>
+
+            <div style="text-align:center;color: #ccc;font-size:14px;">------ Finish! ------</div>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://mikewolfli.github.io/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://mikewolfli.github.io/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-How-to-invoke-SAP-RFC-function-by-external-program-with-nwrfcsdk" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -773,7 +914,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SAP/">SAP</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Elevator/">Elevator</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SAP/">SAP</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -782,7 +923,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -791,7 +932,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/SAP-RFC-c-Python/">SAP,RFC,c++,Python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/IOT-Elevator/">IOT, Elevator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SAP-RFC-c-Python/">SAP,RFC,c++,Python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -800,7 +941,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/SAP-RFC-c-Python/" style="font-size: 10px;">SAP,RFC,c++,Python</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a>
+            <a href="/tags/IOT-Elevator/" style="font-size: 10px;">IOT, Elevator</a> <a href="/tags/SAP-RFC-c-Python/" style="font-size: 10px;">SAP,RFC,c++,Python</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a>
         </div>
     </div>
 
@@ -810,6 +951,25 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Elevator/">Elevator</a></p>
+                            <p class="item-title"><a href="/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/" class="title">How is internet of things used in the Elevator Industry</a></p>
+                            <p class="item-date"><time datetime="2017-03-10T06:29:00.000Z" itemprop="datePublished">2017-03-10</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -862,7 +1022,7 @@
 <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2016 mikewolfli<br>
+            &copy; 2017 mikewolfli<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
              </br>Total visit: <span id="busuanzi_value_site_pv"></span> (times)，total visitors: <span id="busuanzi_value_site_uv"></span> (persons)，total read: <span id="busuanzi_value_page_pv"></span> (times)
         </div>

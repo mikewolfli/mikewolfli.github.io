@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mikewolfli.github.io/"/>
-  <updated>2016-12-23T03:32:03.533Z</updated>
+  <updated>2017-03-17T04:08:07.217Z</updated>
   <id>http://mikewolfli.github.io/</id>
   
   <author>
@@ -14,6 +14,53 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How is internet of things used in the Elevator Industry</title>
+    <link href="http://mikewolfli.github.io/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/"/>
+    <id>http://mikewolfli.github.io/2017/03/10/How-is-internet-of-things-used-in-the-Elevator-Industry/</id>
+    <published>2017-03-10T06:29:00.000Z</published>
+    <updated>2017-03-17T04:08:07.217Z</updated>
+    
+    <content type="html"><![CDATA[<p>###Architecture diagram<br><img src="http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png" alt="Diagram"></p>
+<p> ###Thinking spark</p>
+<p> ####Data Center</p>
+<ol>
+<li>It is based on a database(postgresql) cluster based on the ubuntu server.</li>
+<li>In data center, it stores the information of every project: location, parametaers(elevator model, speed, load, etc.), running information, customer’s info,bom tree of every unit, erp info, mes info, etc.</li>
+<li><p>According the unit running information, you can generate a leveling strategy  and rewrite to the unit controlling system to optimize the runnint efficiency.</p>
+<p>####Application Servers</p>
+</li>
+<li>It is based on Ubuntu server.</li>
+<li>The erp system, mes system and restweb serve are deployed in it.</li>
+</ol>
+<p>####Gateway</p>
+<ol>
+<li>It is a IOT gateway.(This is the key device of the internet of things)</li>
+<li>Its operate system is openwrt.(2 core cpu, 128M Rom, 256M RAM)</li>
+<li>Through it, running information of every unis is uploaded to database in data center. The optimized leveling strategy is writed into units controlling system.</li>
+<li>The elevator’s quantity, connecting to it, has a max value. So one project has more than one. </li>
+</ol>
+<p>####Client</p>
+<ol>
+<li>It may be a web-based client, or a mobile app in  phone.</li>
+<li>Through it, customer can call one unit to level on the stop when customer want to go out from her/his location. But the priority of this calling command is less than it from the landing.</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;###Architecture diagram&lt;br&gt;&lt;img src=&quot;http://oirr6l0ul.bkt.clouddn.com/network%20structure.png.png&quot; alt=&quot;Diagram&quot;&gt;&lt;/p&gt;
+&lt;p&gt; ###Thinking spa
+    
+    </summary>
+    
+      <category term="Elevator" scheme="http://mikewolfli.github.io/categories/Elevator/"/>
+    
+    
+      <category term="IOT, Elevator" scheme="http://mikewolfli.github.io/tags/IOT-Elevator/"/>
+    
+  </entry>
   
   <entry>
     <title>How to invoke SAP RFC function by external program with nwrfcsdk</title>
